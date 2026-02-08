@@ -1,5 +1,23 @@
+// 瀏覽次數統計（使用 CountAPI，每次造訪 +1）
+function initVisitorCount() {
+    var el = document.getElementById('visitorCount');
+    if (!el) return;
+    var url = 'https://api.countapi.xyz/hit/chenyou/about-me';
+    fetch(url)
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (typeof data.value === 'number') {
+                el.textContent = data.value.toLocaleString('zh-TW');
+            }
+        })
+        .catch(function() {
+            el.textContent = '—';
+        });
+}
+
 // 頁面載入完成後的初始化
 document.addEventListener('DOMContentLoaded', function() {
+    initVisitorCount();
     // 為所有區塊添加動畫效果
     const sections = document.querySelectorAll('.section');
     

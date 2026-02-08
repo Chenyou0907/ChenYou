@@ -143,6 +143,29 @@ body {
     font-size: 1.2em;
 }
 
+.visitor-count {
+    margin-top: 20px;
+    padding: 10px 14px;
+    background: rgba(15, 20, 25, 0.6);
+    border: 1px solid #2a2a3e;
+    border-radius: 10px;
+    font-size: 0.9em;
+    color: #a0aec0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.visitor-icon {
+    font-size: 1.1em;
+}
+
+.visitor-number {
+    font-weight: 600;
+    color: #a78bfa;
+}
+
 /* 內容區域 */
 .content {
     padding: 0;
