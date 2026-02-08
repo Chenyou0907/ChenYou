@@ -1,13 +1,18 @@
-// 瀏覽次數統計（使用 CountAPI，每次造訪 +1）
+// 瀏覽次數統計：呼叫自己的 API（由 Vercel 轉發 CountAPI），每次打開網頁 +1
 function initVisitorCount() {
     var el = document.getElementById('visitorCount');
     if (!el) return;
-    var url = 'https://api.countapi.xyz/hit/chenyou/about-me';
-    fetch(url)
+    // 部署在 Vercel 時用 /api/visit；本機可改為你的 Vercel 網址或保留會顯示 — 
+    var apiUrl = typeof window !== 'undefined' && window.location.origin
+        ? window.location.origin + '/api/visit'
+        : '/api/visit';
+    fetch(apiUrl)
         .then(function(res) { return res.json(); })
         .then(function(data) {
             if (typeof data.value === 'number') {
                 el.textContent = data.value.toLocaleString('zh-TW');
+            } else {
+                el.textContent = '—';
             }
         })
         .catch(function() {
