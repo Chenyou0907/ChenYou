@@ -1,16 +1,20 @@
-// Vercel Serverless：轉發 CountAPI，避免瀏覽器 CORS，每次 GET 會 +1 並回傳次數
-const COUNT_API = 'https://api.countapi.xyz/hit/chenyou/about-me';
+// Vercel Serverless：轉發計數 API，每次 GET +1 並回傳次數（避免瀏覽器 CORS）
+// 使用穩定替代：countapi.mileshilliard.com（CountAPI.xyz 可能不穩）
+const COUNTER_KEY = 'chenyou-about-me-visits';
+const HIT_API = `https://countapi.mileshilliard.com/api/v1/hit/${COUNTER_KEY}`;
 
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Cache-Control', 'no-store');
 
   try {
-    const r = await fetch(COUNT_API);
+    const r = await fetch(HIT_API);
     const data = await r.json();
-    // 只回傳有效數字；CountAPI 錯誤或格式不對時不回傳 0，避免被當成「真的 0 次」
-    if (typeof data.value === 'number' && data.value >= 0) {
-      res.status(200).json({ value: data.value });
+    // 此 API 回傳 value 可能是字串
+    const raw = data.value;
+    const value = typeof raw === 'number' ? raw : parseInt(raw, 10);
+    if (!Number.isNaN(value) && value >= 0) {
+      res.status(200).json({ value });
     } else {
       res.status(502).json({ error: true });
     }
