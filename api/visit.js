@@ -8,9 +8,13 @@ export default async function handler(req, res) {
   try {
     const r = await fetch(COUNT_API);
     const data = await r.json();
-    const value = typeof data.value === 'number' ? data.value : 0;
-    res.status(200).json({ value });
+    // 只回傳有效數字；CountAPI 錯誤或格式不對時不回傳 0，避免被當成「真的 0 次」
+    if (typeof data.value === 'number' && data.value >= 0) {
+      res.status(200).json({ value: data.value });
+    } else {
+      res.status(502).json({ error: true });
+    }
   } catch (e) {
-    res.status(500).json({ value: 0 });
+    res.status(500).json({ error: true });
   }
 }

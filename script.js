@@ -2,15 +2,17 @@
 function initVisitorCount() {
     var el = document.getElementById('visitorCount');
     if (!el) return;
-    // 部署在 Vercel 時用 /api/visit；本機可改為你的 Vercel 網址或保留會顯示 — 
-    var apiUrl = typeof window !== 'undefined' && window.location.origin
+    el.textContent = '載入中…';
+    var apiUrl = (typeof window !== 'undefined' && window.location.origin)
         ? window.location.origin + '/api/visit'
         : '/api/visit';
     fetch(apiUrl)
         .then(function(res) { return res.json(); })
         .then(function(data) {
-            if (typeof data.value === 'number') {
-                el.textContent = data.value.toLocaleString('zh-TW');
+            if (typeof data.value === 'number' && data.value >= 0) {
+                // 若 API 回傳 0 可能是「剛建立」或「這次造訪已 +1 但回傳舊值」，至少顯示 1
+                var n = data.value < 1 ? 1 : data.value;
+                el.textContent = n.toLocaleString('zh-TW');
             } else {
                 el.textContent = '—';
             }
