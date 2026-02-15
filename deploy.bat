@@ -8,15 +8,9 @@ echo ========================================
 echo.
 
 echo [1/3] 添加修改的文件...
-if exist ".git\index.lock" (
-    echo 偵測到 Git 鎖定文件，正在清除...
-    del /f /q ".git\index.lock"
-    echo ✓ 已清除鎖定文件
-)
 git add .
 if %errorlevel% neq 0 (
     echo 錯誤：無法添加文件
-    echo 提示：請確認沒有其他 Git 操作正在進行
     pause
     exit /b 1
 )
