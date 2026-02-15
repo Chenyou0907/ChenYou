@@ -68,15 +68,17 @@ async function fetchAccountRank(account, apiKey) {
             };
         }
         
-        const currentData = mmrData.data.current_data || {};
-        const highestRank = mmrData.data.highest_rank || {};
+        // v2 API 的資料結構
+        const data = mmrData.data;
+        const currentData = data.current_data || data;
+        const highestRank = data.highest_rank || {};
         
         return {
             display_name: account.displayName,
-            current_rank: currentData.currenttier_patched || '未定',
+            current_rank: currentData.currenttierpatched || currentData.currenttier_patched || '未定',
             current_tier: currentData.currenttier || 0,
-            rr: currentData.ranking_in_tier || 0,
-            peak_rank: highestRank.patched_tier || '未定',
+            rr: currentData.ranking_in_tier || currentData.elo || 0,
+            peak_rank: highestRank.patched_tier || highestRank.currenttierpatched || '未定',
             peak_tier: highestRank.tier || 0,
             elo: currentData.elo || 0,
             mmr_change: currentData.mmr_change_to_last_game || 0
