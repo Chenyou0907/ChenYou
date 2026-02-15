@@ -99,6 +99,56 @@ body {
     display: inline-block;
 }
 
+/* 在線狀態 */
+.online-status {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(15, 20, 25, 0.6);
+    border-radius: 20px;
+    border: 1px solid #2a2a3e;
+    font-size: 0.9em;
+}
+
+.status-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #6b7280;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.online-status.online .status-indicator {
+    background: #10b981;
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+}
+
+.online-status.offline .status-indicator {
+    background: #6b7280;
+    animation: none;
+}
+
+.online-status.in-game .status-indicator {
+    background: #f59e0b;
+    box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+}
+
+.status-text {
+    color: #e0e0e0;
+    font-weight: 500;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
 .social-links {
     margin-top: 18px;
     display: flex;

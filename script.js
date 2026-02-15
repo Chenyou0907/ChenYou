@@ -58,6 +58,11 @@ function updateRanks() {
         .then(res => res.json())
         .then(data => {
             if (data.accounts && Array.isArray(data.accounts)) {
+                // 更新在線狀態（使用第一個帳號的狀態）
+                if (data.accounts.length > 0) {
+                    updateOnlineStatus(data.accounts[0]);
+                }
+                
                 data.accounts.forEach((account, index) => {
                     if (index < accountItems.length) {
                         updateAccountDisplay(accountItems[index], account);
@@ -74,7 +79,28 @@ function updateRanks() {
                     badge.style.opacity = '1';
                 });
             });
+            updateOnlineStatus({ is_online: false });
         });
+}
+
+// 更新在線狀態
+function updateOnlineStatus(accountData) {
+    const statusElement = document.getElementById('onlineStatus');
+    if (!statusElement) return;
+    
+    const indicator = statusElement.querySelector('.status-indicator');
+    const text = statusElement.querySelector('.status-text');
+    
+    // 移除所有狀態類別
+    statusElement.classList.remove('online', 'offline', 'in-game');
+    
+    if (accountData.is_online) {
+        statusElement.classList.add('online');
+        text.textContent = '在線';
+    } else {
+        statusElement.classList.add('offline');
+        text.textContent = '離線';
+    }
 }
 
 // 更新單個帳號的顯示
