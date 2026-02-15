@@ -5,8 +5,8 @@ const HENRIK_BASE = 'https://api.henrikdev.xyz/valorant';
 
 // 你的帳號設定
 const ACCOUNTS = [
-    { region: 'ap', name: 'Hex Strike', tag: '都是土豆', displayName: 'Hex Strike#都是土豆' },
-    { region: 'ap', name: 'ChenYou', tag: '1227', displayName: 'ChenYou#1227' }
+    { region: 'jp', name: 'Hex Strike', tag: '都是土豆', displayName: 'Hex Strike#都是土豆' },
+    { region: 'jp', name: 'ChenYou', tag: '1227', displayName: 'ChenYou#1227' }
 ];
 
 // 牌位等級對應
