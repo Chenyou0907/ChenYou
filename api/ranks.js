@@ -45,13 +45,23 @@ async function fetchAccountRank(account, apiKey) {
         const encodedTag = encodeURIComponent(account.tag);
         
         // 獲取 MMR 資料
-        const mmrUrl = `${HENRIK_BASE}/v3/mmr/${account.region}/${encodedName}/${encodedTag}?api_key=${apiKey}`;
+        const mmrUrl = `${HENRIK_BASE}/v3/mmr/${account.region}/${encodedName}/${encodedTag}${apiKey ? '?api_key=' + apiKey : ''}`;
         const mmrData = await httpsGet(mmrUrl);
         
-        if (mmrData.status !== 200 || !mmrData.data) {
+        // 檢查 API 回應
+        if (!mmrData || mmrData.status !== 200) {
+            console.error('API Error:', mmrData);
             return {
                 display_name: account.displayName,
-                error: '無法獲取牌位資料'
+                error: mmrData?.errors?.[0]?.message || '無法獲取牌位資料',
+                debug: mmrData
+            };
+        }
+        
+        if (!mmrData.data) {
+            return {
+                display_name: account.displayName,
+                error: '找不到玩家資料'
             };
         }
         
@@ -60,15 +70,16 @@ async function fetchAccountRank(account, apiKey) {
         
         return {
             display_name: account.displayName,
-            current_rank: currentData.currenttier_patched || currentData.currenttier || '未定',
+            current_rank: currentData.currenttier_patched || '未定',
             current_tier: currentData.currenttier || 0,
             rr: currentData.ranking_in_tier || 0,
-            peak_rank: highestRank.patched_tier || highestRank.currenttier_patched || '未定',
+            peak_rank: highestRank.patched_tier || '未定',
             peak_tier: highestRank.tier || 0,
             elo: currentData.elo || 0,
             mmr_change: currentData.mmr_change_to_last_game || 0
         };
     } catch (error) {
+        console.error('Fetch error:', error);
         return {
             display_name: account.displayName,
             error: error.message || '獲取資料時發生錯誤'
