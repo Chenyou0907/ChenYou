@@ -50,7 +50,7 @@ async function fetchAccountRank(account, apiKey) {
         
         if (mmrData.status !== 200 || !mmrData.data) {
             return {
-                displayName: account.displayName,
+                display_name: account.displayName,
                 error: '無法獲取牌位資料'
             };
         }
@@ -59,18 +59,18 @@ async function fetchAccountRank(account, apiKey) {
         const highestRank = mmrData.data.highest_rank || {};
         
         return {
-            displayName: account.displayName,
-            currentRank: currentData.currenttier_patched || currentData.currenttier || '未定',
-            currentTier: currentData.currenttier || 0,
+            display_name: account.displayName,
+            current_rank: currentData.currenttier_patched || currentData.currenttier || '未定',
+            current_tier: currentData.currenttier || 0,
             rr: currentData.ranking_in_tier || 0,
-            peakRank: highestRank.patched_tier || highestRank.currenttier_patched || '未定',
-            peakTier: highestRank.tier || 0,
+            peak_rank: highestRank.patched_tier || highestRank.currenttier_patched || '未定',
+            peak_tier: highestRank.tier || 0,
             elo: currentData.elo || 0,
-            mmrChange: currentData.mmr_change_to_last_game || 0
+            mmr_change: currentData.mmr_change_to_last_game || 0
         };
     } catch (error) {
         return {
-            displayName: account.displayName,
+            display_name: account.displayName,
             error: error.message || '獲取資料時發生錯誤'
         };
     }
