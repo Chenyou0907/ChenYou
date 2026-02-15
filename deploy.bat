@@ -24,7 +24,7 @@ echo ✓ 文件已添加
 echo.
 
 echo [2/3] 提交變更...
-git commit -m "更新牌位系統"
+git commit -m "更新配備"
 if %errorlevel% neq 0 (
     echo 注意：可能沒有新的變更需要提交
 )
