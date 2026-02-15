@@ -81,8 +81,7 @@ async function fetchAccountRank(account, apiKey) {
             peak_rank: highestRank.patched_tier || highestRank.currenttierpatched || '未定',
             peak_tier: highestRank.tier || 0,
             elo: currentData.elo || 0,
-            mmr_change: currentData.mmr_change_to_last_game || 0,
-            is_online: false // 暫時設為離線，避免 API 限制
+            mmr_change: currentData.mmr_change_to_last_game || 0
         };
     } catch (error) {
         console.error('Fetch error:', error);
