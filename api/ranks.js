@@ -45,8 +45,8 @@ async function fetchAccountRank(account, apiKey) {
         const encodedName = encodeURIComponent(account.name);
         const encodedTag = encodeURIComponent(account.tag);
         
-        // 獲取 MMR 資料
-        const mmrUrl = `${HENRIK_BASE}/v3/mmr/${account.region}/${encodedName}/${encodedTag}${apiKey ? '?api_key=' + apiKey : ''}`;
+        // 獲取 MMR 資料 - 使用 v2 API 試試看
+        const mmrUrl = `${HENRIK_BASE}/v2/mmr/${account.region}/${encodedName}/${encodedTag}${apiKey ? '?api_key=' + apiKey : ''}`;
         const mmrData = await httpsGet(mmrUrl);
         
         // 檢查 API 回應
