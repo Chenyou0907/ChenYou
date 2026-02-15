@@ -4,9 +4,10 @@ const https = require('https');
 const HENRIK_BASE = 'https://api.henrikdev.xyz/valorant';
 
 // 你的帳號設定
+// Henrik API 區域代碼：na, eu, ap, kr, latam, br
 const ACCOUNTS = [
-    { region: 'jp', name: 'Hex Strike', tag: '都是土豆', displayName: 'Hex Strike#都是土豆' },
-    { region: 'jp', name: 'ChenYou', tag: '1227', displayName: 'ChenYou#1227' }
+    { region: 'ap', name: 'Hex Strike', tag: '都是土豆', displayName: 'Hex Strike#都是土豆' },
+    { region: 'ap', name: 'ChenYou', tag: '1227', displayName: 'ChenYou#1227' }
 ];
 
 // 牌位等級對應
@@ -51,10 +52,12 @@ async function fetchAccountRank(account, apiKey) {
         // 檢查 API 回應
         if (!mmrData || mmrData.status !== 200) {
             console.error('API Error:', mmrData);
+            const errorMsg = mmrData?.errors?.[0]?.message || mmrData?.message || '無法獲取牌位資料';
             return {
                 display_name: account.displayName,
-                error: mmrData?.errors?.[0]?.message || '無法獲取牌位資料',
-                debug: mmrData
+                error: `${errorMsg} (${account.region}/${account.name}#${account.tag})`,
+                status: mmrData?.status,
+                apiUrl: mmrUrl
             };
         }
         
