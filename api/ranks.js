@@ -73,21 +73,6 @@ async function fetchAccountRank(account, apiKey) {
         const currentData = data.current_data || data;
         const highestRank = data.highest_rank || {};
         
-        // 嘗試獲取在線狀態（使用 v1 account API）
-        let isOnline = false;
-        let gameStatus = 'offline';
-        try {
-            const accountUrl = `${HENRIK_BASE}/v1/account/${encodedName}/${encodedTag}${apiKey ? '?api_key=' + apiKey : ''}`;
-            const accountData = await httpsGet(accountUrl);
-            if (accountData && accountData.status === 200 && accountData.data) {
-                // 檢查最後活動時間來判斷是否在線
-                isOnline = accountData.data.last_update_raw ? 
-                    (Date.now() - accountData.data.last_update_raw < 300000) : false; // 5分鐘內
-            }
-        } catch (e) {
-            // 忽略在線狀態錯誤
-        }
-        
         return {
             display_name: account.displayName,
             current_rank: currentData.currenttierpatched || currentData.currenttier_patched || '未定',
@@ -97,8 +82,7 @@ async function fetchAccountRank(account, apiKey) {
             peak_tier: highestRank.tier || 0,
             elo: currentData.elo || 0,
             mmr_change: currentData.mmr_change_to_last_game || 0,
-            is_online: isOnline,
-            game_status: gameStatus
+            is_online: false // 暫時設為離線，避免 API 限制
         };
     } catch (error) {
         console.error('Fetch error:', error);
