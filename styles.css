@@ -570,3 +570,66 @@ body {
         grid-template-columns: 1fr;
     }
 }
+
+/* 頁尾版權 */
+.footer {
+    margin-top: 60px;
+    padding: 40px 60px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    border-top: 1px solid #2a2a3e;
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.copyright {
+    font-size: 0.95em;
+    color: #a0aec0;
+    margin-bottom: 12px;
+}
+
+.footer-links {
+    margin-bottom: 12px;
+}
+
+.footer-links a {
+    color: #a78bfa;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    font-size: 0.9em;
+}
+
+.footer-links a:hover {
+    color: #c4b5fd;
+}
+
+.separator {
+    margin: 0 12px;
+    color: #4a4a5e;
+}
+
+.powered-by {
+    font-size: 0.85em;
+    color: #6b7280;
+    margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        padding: 30px 20px;
+        margin-top: 40px;
+    }
+    
+    .footer-links {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .separator {
+        display: none;
+    }
+}
